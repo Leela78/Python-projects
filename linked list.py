@@ -1,72 +1,63 @@
-# Creating a node
 class Node:
     def __init__(self, data):
         self.data = data
         self.next = None
-        
-# Creating Linked List class
+
 class Sll:
     def __init__(self):
         self.head = None
 
-    # Traversal
+    # Display list
     def traversal(self):
-        count = 0
         if self.head is None:
-            print("Linkedlist is empty") 
+            print("Linked list is empty")
         else:
             a = self.head
-            while a is not None:
+            while a:
                 print(a.data, end=" ")
-                count += 1
                 a = a.next
             print()
 
-    # Insertion at beginning
-    def insert(self, data):
-        print()
+    # Insert at beginning
+    def insert_begin(self, data):
         nb = Node(data)
         nb.next = self.head
-        self.head = nb     
+        self.head = nb
 
-    # Insertion at end
+    # Insert at end
     def insert_end(self, data):
-        print()
         ne = Node(data)
         if self.head is None:
             self.head = ne
             return
         a = self.head
-        while a.next is not None:
+        while a.next:
             a = a.next
         a.next = ne
 
-    # Insertion at specific position
+    # Insert at specific position
     def insert_position(self, position, data):
         ns = Node(data)
-        a = self.head
-        print()
-        if position == 1:   # insert at head
+        if position == 1:
             ns.next = self.head
             self.head = ns
             return
+        a = self.head
         for i in range(1, position-1):
             if a is None:
-                return  # position out of range
+                print("Position out of range")
+                return
             a = a.next
         ns.next = a.next
-        a.next = ns    
+        a.next = ns
 
-    # Deletion at begin
-    def deletion_at_begin(self):
-        print()
-        if self.head is None:
-            return
-        self.head = self.head.next
+    # Delete at beginning
+    def delete_begin(self):
+        if self.head:
+            self.head = self.head.next
 
-    # Deletion at end
-    def deletion_at_end(self):
-        print()
+    # Delete at end
+    def delete_end(self):
         if self.head is None:
             return
         if self.head.next is None:
@@ -74,14 +65,13 @@ class Sll:
             return
         prev = self.head
         a = self.head.next
-        while a.next is not None:
+        while a.next:
             a = a.next
             prev = prev.next
-        prev.next = None           
+        prev.next = None
 
-    # Deletion at specific position 
-    def deletion_at_position(self, position):
-        print()
+    # Delete at specific position
+    def delete_position(self, position):
         if self.head is None:
             return
         if position == 1:
@@ -91,75 +81,94 @@ class Sll:
         a = self.head.next
         for i in range(1, position-1):
             if a is None:
+                print("Position out of range")
                 return
             a = a.next
             prev = prev.next
         if a is None:
+            print("Position out of range")
             return
         prev.next = a.next
-        a.next = None                       
-    def countt(self):
-        print()
-        count=0
-        a=self.head
-        while a is not None:
-            count +=1
-            a=a.next 
-        return count
-    def searching(self, s):
+
+    # Count nodes
+    def count_nodes(self):
+        count = 0
         a = self.head
-        print()
-        while a is not None:
-            if a.data == s:   # check node's data
-                return True   # element found
+        while a:
+            count += 1
             a = a.next
-        return False   # element not found
+        return count
 
+    # Search element
+    def search(self, key):
+        a = self.head
+        while a:
+            if a.data == key:
+                return True
+            a = a.next
+        return False
 
-# Creating nodes                
-n1 = Node(4)
-n2 = Node(8)
-n3 = Node(3)
-n4 = Node(12)
-
-# Linking nodes together
-n1.next = n2
-n2.next = n3
-n3.next = n4
-
-# Creating linked list and set head
+# ----------------- MAIN PROGRAM -----------------
 sll = Sll()
-sll.head = n1
 
-# Demonstrating operations
-print("Original linkedlist")
+# Step 1: Ask user for initial data
+n = int(input("How many elements do you want in the linked list? "))
+for i in range(n):
+    data = int(input(f"Enter element {i+1}: "))
+    sll.insert_end(data)
+
+print("\nInitial linked list:")
 sll.traversal()
-#insert at begin
-sll.insert(1)
-print("After insertion at begin")
-sll.traversal()
-#insert at end
-sll.insert_end(21)
-print("After insertion at end")
-sll.traversal()
-#insert at specific position
-sll.insert_position(3, 78)
-print("After insertion at specific position")
-sll.traversal()
-#delete at begin
-sll.deletion_at_begin()
-print("After deletion at begin")
-sll.traversal()
-#delete at end
-sll.deletion_at_end()
-print("After deletion at end")
-sll.traversal()
-#deleting the specific part
-sll.deletion_at_position(4)
-print("After deletion at specific position")
-sll.traversal()
-#retreieving the length of the array
-print("count is:",sll.countt())
-sll.traversal()
-s=40
-print("searching for",s,":",sll.searching(s))
+
+# Step 2: Menu-driven operations
+while True:
+    print("\n--- Linked List Operations ---")
+    print("1. Display List")
+    print("2. Insert at Beginning")
+    print("3. Insert at End")
+    print("4. Insert at Specific Position")
+    print("5. Delete at Beginning")
+    print("6. Delete at End")
+    print("7. Delete at Specific Position")
+    print("8. Count Nodes")
+    print("9. Search Element")
+    print("10. Exit")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        sll.traversal()
+    elif choice == 2:
+        data = int(input("Enter data to insert at beginning: "))
+        sll.insert_begin(data)
+        sll.traversal()
+    elif choice == 3:
+        data = int(input("Enter data to insert at end: "))
+        sll.insert_end(data)
+        sll.traversal()
+    elif choice == 4:
+        position = int(input("Enter position to insert: "))
+        data = int(input("Enter data: "))
+        sll.insert_position(position, data)
+        sll.traversal()
+    elif choice == 5:
+        sll.delete_begin()
+        sll.traversal()
+    elif choice == 6:
+        sll.delete_end()
+        sll.traversal()
+    elif choice == 7:
+        position = int(input("Enter position to delete: "))
+        sll.delete_position(position)
+        sll.traversal()
+    elif choice == 8:
+        print("Number of nodes:", sll.count_nodes())
+    elif choice == 9:
+        key = int(input("Enter element to search: "))
+        found = sll.search(key)
+        print(f"{key} is {'found' if found else 'not found'} in the list")
+    elif choice == 10:
+        print("Exiting... Thank you!")
+        break
+    else:
+        print("Invalid choice! Try again.")
