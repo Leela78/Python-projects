@@ -1,70 +1,101 @@
+
 class Node:
-    # Node of a doubly linked list
     def __init__(self, data):
         self.data = data
         self.next = None
         self.prev = None
 
 class Dll:
-    # Doubly Linked List
     def __init__(self):
         self.head = None
 
-    # Display elements
     def traverse(self):
         if self.head is None:
-            print("Empty DLL")
+            print("DLL is empty")
         else:
             temp = self.head
             while temp:
                 print(temp.data, end=" ")
                 temp = temp.next
-            print()
+            print()  # new line after printing list
 
-    # Insert at the beginning
     def insert_at_begin(self, data):
         nb = Node(data)
         temp = self.head
         nb.next = temp
-        nb.prev = None
-        if temp is not None:   
+        if temp is not None:
             temp.prev = nb
         self.head = nb
 
-    # Insert at the end
     def insert_at_end(self, data):
         ne = Node(data)
-        if self.head is None:   
+        if self.head is None:
             self.head = ne
             return
         temp = self.head
-        while temp.next:  
+        while temp.next:
             temp = temp.next
         temp.next = ne
         ne.prev = temp
 
+    def delete(self, key):
+        temp = self.head
+        while temp:
+            if temp.data == key:
+                if temp.prev:
+                    temp.prev.next = temp.next
+                else:
+                    self.head = temp.next
+                if temp.next:
+                    temp.next.prev = temp.prev
+                return
+            temp = temp.next
+        print("Element not found!")
 
-# Creating DLL manually
-l = Dll()
-n1 = Node(3)
-l.head = n1
-n2 = Node(4)
-n1.next = n2
-n2.prev = n1
-n3 = Node(5)
-n2.next = n3
-n3.prev = n2
-n4 = Node(7)
-n3.next = n4
-n4.prev = n3
+# ------------------ MAIN PROGRAM ------------------
+dll = Dll()
 
-print("Creation of Doubly Linked List:")
-l.traverse()
+# Step 1: Create DLL with user input
+n = int(input("Enter number of nodes to create: "))
+for i in range(n):
+    data = int(input(f"Enter data for node {i+1}: "))
+    dll.insert_at_end(data)
 
-l.insert_at_begin(45)
-print("After inserting at beginning:")
-l.traverse()
+print("\nInitial Doubly Linked List:")
+dll.traverse()
 
-l.insert_at_end(30)
-print("After inserting at end:")
-l.traverse()
+# Step 2: Operations Menu
+while True:
+    print("\nChoose operation:")
+    print("1. Insert at Beginning")
+    print("2. Insert at End")
+    print("3. Delete a Node")
+    print("4. Display List")
+    print("5. Exit")
+
+    choice = int(input("Enter choice: "))
+
+    if choice == 1:
+        data = int(input("Enter data to insert at beginning: "))
+        dll.insert_at_begin(data)
+        dll.traverse()
+
+    elif choice == 2:
+        data = int(input("Enter data to insert at end: "))
+        dll.insert_at_end(data)
+        dll.traverse()
+
+    elif choice == 3:
+        key = int(input("Enter node value to delete: "))
+        dll.delete(key)
+        dll.traverse()
+
+    elif choice == 4:
+        dll.traverse()
+
+    elif choice == 5:
+        print("Exiting...")
+        break
+
+    else:
+        print("Invalid choice! Try again.")
